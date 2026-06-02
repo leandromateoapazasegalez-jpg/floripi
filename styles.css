@@ -1,0 +1,81 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Georgia, serif;
+}
+
+/* Fondo animado */
+.fondo{
+    position:fixed;
+    top:-5%;
+    left:-5%;
+    width:110%;
+    height:110%;
+
+    background:url('noche.jpg') center center no-repeat;
+    background-size:cover;
+
+    z-index:-1;
+
+    animation: flotar 15s ease-in-out infinite;
+}
+
+/* Cuadro del mensaje */
+.container{
+    background:rgba(0,0,0,0.55);
+    color:white;
+
+    max-width:800px;
+    padding:40px;
+    border-radius:20px;
+
+    text-align:center;
+
+    backdrop-filter:blur(4px);
+
+    box-shadow:0 0 30px rgba(255,255,255,0.2);
+}
+
+h1{
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+p{
+    font-size:1.4rem;
+    line-height:1.8;
+}
+
+/* Movimiento tipo barco */
+@keyframes flotar{
+
+    0%{
+        transform:translateX(-20px) translateY(5px) rotate(-1deg);
+    }
+
+    25%{
+        transform:translateX(-10px) translateY(-5px) rotate(-0.5deg);
+    }
+
+    50%{
+        transform:translateX(20px) translateY(5px) rotate(1deg);
+    }
+
+    75%{
+        transform:translateX(10px) translateY(-5px) rotate(0.5deg);
+    }
+
+    100%{
+        transform:translateX(-20px) translateY(5px) rotate(-1deg);
+    }
+}
+
