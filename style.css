@@ -1,0 +1,100 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  background: radial-gradient(circle, #ffb6c1, #ff69b4, #ff1493);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  text-align: center;
+}
+
+.container {
+  z-index: 2;
+}
+
+h1 {
+  font-size: 2.5em;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #fff; }
+  to { text-shadow: 0 0 25px #ff1493, 0 0 45px #ff69b4; }
+}
+
+.message, .question {
+  font-size: 1.3em;
+}
+
+.buttons {
+  margin-top: 25px;
+}
+
+button {
+  background-color: #fff;
+  border: none;
+  padding: 15px 35px;
+  font-size: 1.2em;
+  border-radius: 30px;
+  margin: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+#yes-btn {
+  color: #ff1493;
+}
+
+#yes-btn:hover {
+  background-color: #ff69b4;
+  color: white;
+  transform: scale(1.1);
+}
+
+#no-btn {
+  color: #888;
+  position: relative;
+}
+
+#no-btn:hover {
+  position: absolute;
+  left: calc(10% + 100px);
+  top: calc(10% + 50px);
+}
+
+.hidden {
+  display: none;
+}
+
+#response {
+  margin-top: 40px;
+  font-size: 1.5em;
+}
+
+/* Corazones flotantes */
+.hearts-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  font-size: 20px;
+  animation: float 5s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+}

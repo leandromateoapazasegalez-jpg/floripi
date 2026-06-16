@@ -1,25 +1,113 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Estrella</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Love Message</title>
+  <style>
+    /* --- Styles --- */
+:root{
+      /* Rosa pastel oscuro */
+      --bg1:#f51010; 
+      --bg2:#c31028; 
+      --bg3:#f60f13;
+      --accent:#ff1414;
+    }
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 20% 10%, var(--bg3), transparent 45%),linear-gradient(180deg,var(--bg1),var(--bg2));overflow:hidden;}
+    .container{z-index:2;padding:30px 24px;border-radius:18px;background:rgba(0,0,0,0.10);backdrop-filter: blur(7px);text-align:center;color:#fff;max-width:420px;width:92%;border:1px solid rgba(255,255,255,0.14)}
+    h1{font-size:1.9rem;margin:0 0 6px;text-shadow:0 3px 14px rgba(0,0,0,.35);-webkit-text-stroke: 0.6px rgba(0,0,0,.25)}
+    p{margin:6px 0;color:rgba(255,255,255,1);text-shadow:0 2px 12px rgba(0,0,0,.35)}
+    .question{margin-top:14px;font-weight:700;letter-spacing:.2px}
+    .buttons{margin-top:18px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    button{padding:12px 20px;border-radius:999px;border:none;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.18);transition:transform .18s ease,opacity .18s ease}
+    #yes-btn{background:linear-gradient(90deg,#ffe4f8,#ffb3dd);color:var(--accent)}
+    #yes-btn:active{transform:scale(.98)}
+    #no-btn{background:rgba(255,255,255,.08);color:rgba(255,255,255,.9)}
+    /* make "No" hard to tap on small screens by moving it away on hover/touch */
+    #no-btn.move-away{position:relative}
+    .hidden{display:none}
+    #response{margin-top:18px;font-size:1.05rem;animation:pop .45s ease both}
+    @keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+    /* hearts layer */
+    .hearts-bg{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+    .heart{position:absolute;bottom:-10vh;font-size:22px;opacity:0;animation:rise linear forwards}
+    @keyframes rise{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-120vh) rotate(600deg);opacity:0}}
+    /* small responsive tweak */
+    @media (max-width:420px){h1{font-size:1.6rem} button{padding:10px 14px}}
+  </style>
 </head>
 <body>
+  <div class="hearts-bg" id="hearts"></div>
 
-    <div class="fondo"></div>
+  <div class="container" role="main" aria-live="polite">
+    <h1>Hola mi hermosa gordita 💕</h1>
+    <p>sabes te extraño muuuuuuuuchooo como una vaca 💌</p>
+    <p class="question">Mi pregunta es .. do you love me? 💖</p>
 
-    <div class="container">
-        <h1>Mi amor, mi flor 🌸</h1>
-        <p>
-
-Dicen que Van Gogh encontró belleza en las estrellas. Yo la encontré en ti.
-Porque entre millones de luces en el cielo, hay una que siempre llama mi atención, y esa eres tú.
-Gracias por existir, por tu fuerza, tu sonrisa y por iluminar mis días incluso desde lejos. ✨
-
-        </p>
+    <div class="buttons">
+      <button id="yes-btn" aria-pressed="false">Yes 😍</button>
+      <button id="no-btn" class="move-away">No 😅</button>
     </div>
 
+    <div id="response" class="hidden" aria-hidden="true">
+      <h2>💘 Yay! You made my heart happy! 💘</h2>
+      <p>Love you so much — Leo 💞</p>
+    </div>
+  </div>
+
+  <script>
+    // --- Script ---
+    const yesBtn = document.getElementById('yes-btn');
+    const noBtn = document.getElementById('no-btn');
+    const response = document.getElementById('response');
+    const hearts = document.getElementById('hearts');
+
+    // Make "No" move away on mouseenter or touchstart
+    function moveNo() {
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      const x = Math.random() * (vw - 140);
+      const y = Math.random() * (vh - 80);
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    }
+    noBtn.addEventListener('mouseenter', moveNo);
+    noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); moveNo(); }, {passive:false});
+
+    // Yes button behaviour
+    yesBtn.addEventListener('click', () => {
+      yesBtn.setAttribute('aria-pressed','true');
+      yesBtn.disabled = true;
+      // show response
+      response.classList.remove('hidden');
+      response.setAttribute('aria-hidden','false');
+      // create many hearts
+      createHearts(40);
+      // optional: celebrate with a small confetti-like extra hearts
+      setTimeout(()=>createHearts(30), 500);
+    });
+
+    // create hearts floating up
+    function createHearts(count=30) {
+      for (let i=0;i<count;i++){
+        const h = document.createElement('div');
+        h.className='heart';
+        h.textContent = '💖';
+        // random start
+        const left = Math.random()*100; // vw
+        h.style.left = left + 'vw';
+        h.style.fontSize = (12 + Math.random()*30) + 'px';
+        const dur = 3000 + Math.random()*3500;
+        h.style.animationDuration = dur + 'ms';
+        hearts.appendChild(h);
+        // remove after animation
+        setTimeout(()=>h.remove(), dur+200);
+      }
+    }
+
+    // Accessibility: keyboard support - move "No" if focused
+    noBtn.addEventListener('focus', moveNo);
+  </script>
 </body>
 </html>
